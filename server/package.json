@@ -1,0 +1,22 @@
+{
+  "name": "evolve2k26-server",
+  "version": "1.0.0",
+  "description": "Backend server for EVOLVE 1.0 hackathon website",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-rate-limit": "^8.3.1",
+    "googleapis": "^140.0.1",
+    "helmet": "^8.1.0",
+    "nodemailer": "^6.9.14",
+    "pdfkit": "^0.15.2",
+    "xss-clean": "^0.1.4"
+  }
+}

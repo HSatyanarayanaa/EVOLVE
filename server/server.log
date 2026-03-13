@@ -1,0 +1,52 @@
+
+  ╔══════════════════════════════════════════╗
+  ║    EVOLVE 2K26 Server Running           ║
+  ║    http://localhost:3000               ║
+  ╚══════════════════════════════════════════╝
+  
+✅ Team "Final Winner Team" registered (row 3)
+⏳ Auto-sending ticket to newly confirmed team "Final Winner Team"...
+✉️  Ticket email sent to: satya.hari3011@gmail.com, priya@srmist.edu.in (id: 19ce133e19b5f99f)
+✅ Ticket sent to "Final Winner Team" & stored in column W.
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://www.googleapis.com/oauth2/v4/token failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+Polling error: request to https://sheets.googleapis.com/v4/spreadsheets/1zvv7oyZRE2bUpw0tSDpcB6v9HqWBX4EkugKvYtKIb7g/values/Sheet1%21A%3AW failed, reason: getaddrinfo ENOTFOUND sheets.googleapis.com
