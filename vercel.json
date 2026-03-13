@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/server/index.js"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/check-confirmed",
+      "schedule": "*/10 * * * *"
+    }
+  ],
+  "cleanUrls": true
+}
