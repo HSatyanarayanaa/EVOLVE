@@ -310,6 +310,8 @@ function router() {
       <div class="orb"></div>
     </div>`;
 
+  const isCrossPageScroll = !!localStorage.getItem('scrollToSection');
+
   if (hash === '#/register') {
     app.innerHTML = particles + renderNavbar() + renderRegistration();
     initRegistrationForm();
@@ -326,7 +328,10 @@ function router() {
     initLanding();
   }
 
-  window.scrollTo(0, 0);
+  // Only scroll to top if we aren't handling a cross-page section scroll
+  if (!isCrossPageScroll) {
+    window.scrollTo(0, 0);
+  }
 }
 
 window.addEventListener('hashchange', router);
@@ -340,11 +345,11 @@ function renderNavbar() {
         <img src="college-logo.png" alt="Rajalakshmi Institute of Technology">
       </a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#about" data-scroll="about">About</a></li>
-        <li><a href="#timeline" data-scroll="timeline">Timeline</a></li>
-        <li><a href="#tracks" data-scroll="tracks">Tracks</a></li>
-        <li><a href="#rules" data-scroll="rules">Rules</a></li>
-        <li><a href="#coordinators" data-scroll="coordinators">Contact</a></li>
+        <li><a href="#/" data-scroll="about">About</a></li>
+        <li><a href="#/" data-scroll="timeline">Timeline</a></li>
+        <li><a href="#/" data-scroll="tracks">Tracks</a></li>
+        <li><a href="#/" data-scroll="rules">Rules</a></li>
+        <li><a href="#/" data-scroll="coordinators">Contact</a></li>
       </ul>
       <a href="#/register" class="nav-cta">Register Now</a>
       <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -373,14 +378,22 @@ function initNavbar() {
   // Smooth scroll for nav section links
   document.querySelectorAll('[data-scroll]').forEach(link => {
     link.addEventListener('click', (e) => {
-      e.preventDefault();
       const targetId = link.getAttribute('data-scroll');
-      const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Close mobile menu
-        if (links) links.classList.remove('open');
+      const hash = window.location.hash || '#/';
+
+      if (hash !== '#/') {
+        // If not on landing page, redirect first
+        // Navigation will happen via the href="#/" and we'll handle scrolling in initLanding
+        localStorage.setItem('scrollToSection', targetId);
+      } else {
+        e.preventDefault();
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
+      // Close mobile menu
+      if (links) links.classList.remove('open');
     });
   });
 }
@@ -402,6 +415,13 @@ function renderLanding() {
         <div class="hero-logo-ring hero-logo-ring-1"></div>
         <div class="hero-logo-ring hero-logo-ring-2"></div>
         <img src="logo-new.png" alt="EVOLVE 1.0" class="hero-logo">
+      </div>
+
+      <div class="sponsor-section reveal">
+        <span class="sponsor-label">Sponsored by</span>
+        <a href="https://velonetics.com/" target="_blank" class="sponsor-link">
+          <img src="https://velonetics.com/wp-content/uploads/2024/07/VELONETIS-V-.png" alt="Velonetics" class="sponsor-logo">
+        </a>
       </div>
 
       <p class="subtitle">A An inter-college hackathon for social impact & Innovation — Innovate, Create & Empower through Technology</p>
@@ -470,6 +490,15 @@ function renderLanding() {
 
     <!-- Timeline -->
     <section class="section" id="timeline">
+      <div class="event-date-container reveal">
+        <div class="date-glow"></div>
+        <div class="date-label">Save the Date</div>
+        <div class="date-value">APRIL 6, 2026</div>
+        <div class="date-decoration">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
       <div class="section-header reveal">
         <div class="section-tag">Event Day Schedule</div>
         <h2 class="section-title">Timeline</h2>
@@ -734,6 +763,18 @@ function initLanding() {
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+  // Handle cross-page scroll targets
+  const scrollTarget = localStorage.getItem('scrollToSection');
+  if (scrollTarget) {
+    localStorage.removeItem('scrollToSection');
+    setTimeout(() => {
+      const targetEl = document.getElementById(scrollTarget);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  }
+
   // Parallax effect on hero elements
   const hero = document.querySelector('.hero');
   if (hero) {
@@ -760,8 +801,8 @@ function initLanding() {
     });
   });
 
-  // Countdown to April 5, 2026
-  const releaseDate = new Date('2026-04-05T00:00:00+05:30').getTime();
+  // Countdown to April 6, 2026
+  const releaseDate = new Date('2026-04-06T00:00:00+05:30').getTime();
   function updateCountdown() {
     const now = Date.now();
     const diff = releaseDate - now;
@@ -1016,7 +1057,7 @@ function renderPayment() {
 
           <div class="txn-input-group">
             <label>Transaction ID <span style="color:var(--accent-warm);">*</span></label>
-            <input type="text" id="txnId" placeholder="Enter your UPI Transaction ID">
+            <input type="text" id="txnId" placeholder="Enter Transaction ID (12 characters)" required maxlength="15">
           </div>
 
           <button class="btn-submit" id="btnSubmit" disabled>
