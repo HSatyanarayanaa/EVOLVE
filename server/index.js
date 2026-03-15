@@ -272,7 +272,8 @@ app.listen(PORT, () => {
     console.log(`
   ╔══════════════════════════════════════════╗
   ║    EVOLVE 1.0 Server Running           ║
-  ║    http://localhost:${PORT}               ║
+  ║    PORT: ${PORT}                          ║
+  ║    ROOT: ${path.join(__dirname, '..')}    ║
   ╚══════════════════════════════════════════╝
   `);
 });
