@@ -39,6 +39,11 @@ app.use(express.json());
 // ── Serve static frontend files ──────────────────────
 app.use(express.static(path.join(__dirname, '..')));
 
+// ── Health Check (for Ping Service) ──────────────────
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'awake', time: new Date().toISOString() });
+});
+
 // ── API Routes ───────────────────────────────────────
 
 /**
