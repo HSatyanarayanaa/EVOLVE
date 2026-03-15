@@ -33,7 +33,11 @@ const registerLimiter = rateLimit({
     legacyHeaders: false,
 });
 
-app.use(cors());
+app.use(cors({
+    origin: ['https://hsatyanarayanaa.github.io', 'http://localhost:3000', 'http://127.0.0.1:3000'],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-secret']
+}));
 app.use(express.json());
 
 // ── Serve static frontend files ──────────────────────
@@ -93,10 +97,10 @@ app.post('/api/register', registerLimiter, async (req, res) => {
     } catch (error) {
         console.error('❌ Registration error:', error.message);
         
-        // Pass known validation errors to the client
+        // Detailed error for debugging
         const errorMessage = error.message.includes('already registered') 
             ? error.message 
-            : 'Server error during registration. Please try again.';
+            : `Server Error: ${error.message}`;
 
         res.status(500).json({
             success: false,
