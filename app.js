@@ -5,7 +5,7 @@
 
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3000/api'
-  : 'https://your-app-name.onrender.com/api'; // REPLACE with your actual Render URL
+  : 'https://evolve-r1qs.onrender.com'; // REPLACE with your actual Render URL
 
 // ═══════════════════════════════════════════════════
 // LIVE COSMIC CANVAS BACKGROUND
