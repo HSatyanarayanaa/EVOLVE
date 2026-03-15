@@ -1226,6 +1226,14 @@ function renderProblemSelection() {
             </div>
           </div>
         </div>
+
+        <!-- Detailed Problem Modal -->
+        <div class="modal-overlay" id="psDetailModal" style="display:none;">
+          <div class="modal-card ps-detail-modal" id="psDetailContent">
+            <!-- Content injected dynamically -->
+          </div>
+        </div>
+
       </div>
     </div>`;
 }
@@ -1236,19 +1244,63 @@ const PROBLEM_STATEMENTS = [
     id: 'PS1', 
     track: 1, 
     title: 'NetGuard — Fake WiFi & Public Network Threat Detection System', 
-    desc: 'Build a smart network security awareness and threat detection platform for public spaces. Features: Network Safety Analyzer, Rogue Network Detector, Live Threat Feed, and Connection History Auditor.' 
+    sdg: 'SDG 16 — Peace, Justice & Strong Institutions | SDG 9 — Industry, Innovation & Infrastructure',
+    summary: 'Build a smart network security awareness and threat detection platform for public spaces.',
+    problemStatement: 'Build a smart network security awareness and threat detection platform that helps everyday users — especially college students in hostels, cafes, libraries, and public spaces — identify rogue WiFi hotspots, detect suspicious network behavior, and understand in real time whether the network they are connected to is safe.',
+    background: 'Evil Twin attacks — where a hacker creates a fake WiFi network named "College_WiFi_Free" or "CCD_Guest" that looks identical to a legitimate network — are one of the most underreported yet devastatingly effective cyberattacks. Once a student connects, every unencrypted packet they send — login credentials, OTPs, form submissions — is visible to the attacker.',
+    features: [
+      { name: 'Network Safety Analyzer', desc: 'Analyzes encryption type, signal anomalies, DNS behavior, and returns a plain-language safety rating.' },
+      { name: 'Rogue Network Detector', desc: 'Maintains a database of legitimate networks and flags similar-named rogue networks.' },
+      { name: 'Live Threat Feed', desc: 'A community-powered feed where users can report suspicious networks in their area.' },
+      { name: 'Connection History Auditor', desc: 'Shows rated history of connected networks with flags on suspicious behavior.' },
+      { name: 'Safe Browsing Checklist', desc: 'Interactive checklist of protective behaviors (VPN, HTTPS) with a self-assessment score.' }
+    ],
+    hardware: {
+      components: 'ESP8266 or ESP32 module + Arduino Uno + 16x2 LCD display + Red/Green LED indicators + Buzzer',
+      description: 'A passive WiFi environment scanner that detects open/weak networks and Evil Twins, sounding a buzzer and alerting the software feed.'
+    }
   },
   { 
     id: 'PS2', 
     track: 2, 
     title: 'TrustChain — Secure Transaction Monitoring & Fraud Prevention Platform', 
-    desc: 'Real-time transaction monitoring and fraud prevention platform for UPI and welfare distribution. Includes: Risk Scorer, Velocity Fraud Detector, and Replay Attack Prevention.' 
+    sdg: 'SDG 16 — Peace, Justice & Strong Institutions | SDG 1 — No Poverty',
+    summary: 'Real-time transaction monitoring and fraud prevention platform for digital payments.',
+    problemStatement: 'Build a real-time transaction monitoring and fraud prevention platform that protects digital payment and welfare distribution systems from modern attack vectors — including identity spoofing, rapid micro-transaction attacks, device hijacking, replay attempts, and ledger tampering.',
+    background: 'India\'s digital payment ecosystem processed over ₹200 lakh crore in UPI transactions in 2023. Welfare schemes like PM-KISAN share a critical vulnerability — they trust the software layer completely. A stolen phone or tampered ledger can silently siphon funds meant for farmers or workers.',
+    features: [
+      { name: 'Transaction Risk Scorer', desc: 'Evaluates amount, frequency, recipients, and location to Approve/Challenge/Block transactions.' },
+      { name: 'Velocity Fraud Detector', desc: 'Detects micro-transaction spam and unusual transaction bursts using window counters.' },
+      { name: 'Impossible Travel Detector', desc: 'Flags identity spoofing if distance between consecutive transactions is physically impossible.' },
+      { name: 'Device Fingerprint Monitor', desc: 'Compares transaction parameters against registered device fingerprints.' },
+      { name: 'Replay Attack Prevention', desc: 'Issued unique Session IDs and timestamps to reject intercepted and resubmitted packets.' },
+      { name: 'Tamper-Proof Ledger', desc: 'Hash-linked log where any alteration breaks the chain and triggers integrity alerts.' }
+    ],
+    hardware: {
+      components: 'ESP32 microcontroller + LED indicators + Optional OLED display',
+      description: 'Acts as a Trusted Device Token Generator, creating time-bound cryptographic tokens (HMAC-SHA256) verified by the backend.'
+    }
   },
   { 
     id: 'PS3', 
     track: 3, 
     title: 'SheSafe — Women\'s Safety Companion', 
-    desc: 'Comprehensive safety app with SOS system, Live Trip Sharing, Ride Verification, Buddy System, and Community Alert Board.' 
+    sdg: 'SDG 5 — Gender Equality | SDG 11 — Sustainable Cities & Communities',
+    summary: 'Comprehensive safety app with real-time tracking, community alerts, and SOS tools.',
+    problemStatement: 'Build a comprehensive women\'s safety app that protects her in public spaces and during travel through real-time commute tracking, community danger alerts, and discreet SOS tools.',
+    background: 'In a moment of danger, unlocking a phone can be impossible. SheSafe making the software powerful enough to work alone — and smarter when paired with a wearable stress sensor.',
+    features: [
+      { name: 'SOS System', desc: 'One-tap SOS disguised as a neutral screen that sends live location to contacts via SMS.' },
+      { name: 'Live Trip Sharing', desc: 'Real-time location sharing with contacts until marked safe, with auto-alerts if no check-in.' },
+      { name: 'Ride Verification', desc: 'Entry of vehicle number instantly shared with emergency contacts.' },
+      { name: 'Buddy System', desc: 'Matches women traveling similar routes at similar times.' },
+      { name: 'Community Alert Board', desc: 'Incident reports pinned to a live map visible to all women in the locality.' },
+      { name: 'Safe Route Suggester', desc: 'Recommendations based on community-reported unsafe zones.' }
+    ],
+    hardware: {
+      components: 'Arduino Nano + Pulse Sensor + Vibration Sensor + Bluetooth Module',
+      description: 'Wearable that monitors heartrate and physical impact, auto-triggering SOS via Bluetooth if a struggle is detected.'
+    }
   },
 ];
 
@@ -1294,6 +1346,9 @@ function initProblemSelection() {
   const modalProblemName = document.getElementById('modalProblemName');
   const btnCancel = document.getElementById('btnCancelSelect');
   const btnConfirm = document.getElementById('btnConfirmSelect');
+
+  const modalDetail = document.getElementById('psDetailModal');
+  const detailContent = document.getElementById('psDetailContent');
 
   if (!btnVerify) return;
 
@@ -1358,20 +1413,100 @@ function initProblemSelection() {
       <div class="ps-card" data-id="${p.id}">
         <div class="ps-card-id">${p.id}</div>
         <h4>${p.title}</h4>
-        <p>${p.desc}</p>
-        <button class="ps-select-btn" data-id="${p.id}" data-title="${p.title}">
-          Select This Problem
-        </button>
+        <p>${p.summary}</p>
+        <div style="display:flex;gap:10px;margin-top:auto;">
+          <button class="btn-details" style="flex:1;" data-id="${p.id}">View Full Details</button>
+          <button class="ps-select-btn" style="flex:1;" data-id="${p.id}" data-title="${p.title}">
+            Select
+          </button>
+        </div>
       </div>
     `).join('');
 
-    // Add click handlers
+    // Add click handlers for selection
     container.querySelectorAll('.ps-select-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         selectedProblem = { id: btn.dataset.id, title: btn.dataset.title };
         modalProblemName.textContent = `${selectedProblem.id}: ${selectedProblem.title}`;
         modal.style.display = 'flex';
       });
+    });
+
+    // Add click handlers for details
+    container.querySelectorAll('.btn-details').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const problem = PROBLEM_STATEMENTS.find(p => p.id === btn.dataset.id);
+        if (problem) showProblemDetails(problem);
+      });
+    });
+  }
+
+  function showProblemDetails(p) {
+    detailContent.innerHTML = `
+      <div class="ps-detail-header">
+        <span class="ps-detail-track-badge">Track ${p.track}</span>
+        <h2>${p.title}</h2>
+        <span class="ps-detail-sdg-tag">${p.sdg}</span>
+      </div>
+      <div class="ps-detail-body">
+        <div class="ps-section">
+          <div class="ps-section-title">
+            <i class="fas fa-bullseye"></i> Problem Statement
+          </div>
+          <p class="ps-text">${p.problemStatement}</p>
+        </div>
+
+        <div class="ps-section">
+          <div class="ps-section-title">
+            <i class="fas fa-history"></i> Problem Background
+          </div>
+          <p class="ps-text">${p.background}</p>
+        </div>
+
+        <div class="ps-section">
+          <div class="ps-section-title">
+            <i class="fas fa-list-check"></i> Software Features (Core)
+          </div>
+          <div class="ps-feature-grid">
+            ${p.features.map(f => `
+              <div class="ps-feature-item">
+                <span class="ps-feature-name">${f.name}</span>
+                <p class="ps-feature-desc">${f.desc}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="ps-section">
+          <div class="ps-section-title">
+            <i class="fas fa-microchip"></i> Hardware Add-on (Open Innovation)
+          </div>
+          <div class="ps-hardware-box">
+             <div class="ps-hardware-title">📟 Hardware Components</div>
+             <p class="ps-text" style="font-size:0.95rem;">${p.hardware.components}</p>
+             
+             <div class="ps-hardware-title" style="margin-top:20px;">🛡️ What it does</div>
+             <p class="ps-text" style="font-size:0.95rem;">${p.hardware.description}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline" style="padding:12px 24px;" onclick="document.getElementById('psDetailModal').style.display='none'">Close Details</button>
+        <button class="btn-primary" style="padding:12px 32px;" id="btnSelectFromDetail" data-id="${p.id}" data-title="${p.title}">
+          <span class="btn-shimmer"></span>
+          Select This Problem
+        </button>
+      </div>
+    `;
+
+    modalDetail.style.display = 'flex';
+
+    // Handler for selection inside detail modal
+    document.getElementById('btnSelectFromDetail').addEventListener('click', (e) => {
+      modalDetail.style.display = 'none';
+      selectedProblem = { id: e.target.dataset.id, title: e.target.dataset.title };
+      modalProblemName.textContent = `${selectedProblem.id}: ${selectedProblem.title}`;
+      modal.style.display = 'flex';
     });
   }
 
