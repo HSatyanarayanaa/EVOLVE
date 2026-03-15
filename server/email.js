@@ -5,6 +5,8 @@
 
 const { google } = require('googleapis');
 const PDFDocument = require('pdfkit');
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 /**
  * Get authenticated Gmail API client using OAuth2
@@ -74,7 +76,6 @@ function buildRawEmail({ from, to, bcc, subject, html, attachments }) {
 }
 
 const fs = require('fs');
-const path = require('path');
 const SVGtoPDF = require('svg-to-pdfkit');
 
 /**
@@ -123,41 +124,46 @@ function generateTicketPDF(data) {
       const teamSize = `0${(data.participants || []).length || 0}`;
       const ticketNum = data.ticketId || `TKT-${String(data.rowIndex || '0042').padStart(4, '0')}`;
       
-      // -- Team Name (Main Body)
-      // Visual center for the participation pass slot is around x=610-790
-      doc.fillColor('#1a0e2e')
-        .font('Helvetica-Bold')
-        .fontSize(14)
-        .text(teamName, 610, 203, {
-          width: 180,
-          align: 'center'
-        });
-
-      // -- Vertical Stub Data (Rotated text)
-      // For vertical text, translate the coordinate system to the desired position, then rotate
+      // 1. Team Name (Horizontal in the Participation Pass slot)
+      const teamNameStr = teamName.toUpperCase();
       
-      // ID
+      // Legacy alignment: x=265, width=270
+      let fontSize = 16;
+      if (teamNameStr.length > 25) fontSize = 14; 
+      if (teamNameStr.length > 40) fontSize = 11;
+
+      doc.fillColor('black');
+      doc.font('Helvetica-Bold').fontSize(fontSize);
+      doc.text(teamNameStr, 265, 145, { 
+          width: 270,
+          align: 'center',
+          lineGap: -2
+      });
+
+      // 2. Team ID (Vertical in the Pink Section slot)
       doc.save();
-      doc.translate(884, 15); // Adjust for visual center of ID slot
-      doc.rotate(90);
-      doc.fillColor('#1a0e2e').font('Helvetica-Bold').fontSize(14)
+      // Legacy position: x=645, y=110
+      doc.translate(645, 110); 
+      doc.rotate(270);
+      doc.fillColor('black').font('Helvetica-Bold').fontSize(14)
          .text(teamId, 0, 0);
       doc.restore();
 
-      // Size
+      // 3. Team Size (Vertical in the Pink Section slot)
       doc.save();
-      doc.translate(884, 110); // Adjust for visual center of Size slot
-      doc.rotate(90);
-      doc.fillColor('#1a0e2e').font('Helvetica-Bold').fontSize(14)
+      // Legacy position: x=645, y=160
+      doc.translate(645, 160); 
+      doc.rotate(270);
+      doc.fillColor('black').font('Helvetica-Bold').fontSize(14)
          .text(teamSize, 0, 0);
       doc.restore();
 
-      // Ticket Number
+      // 4. Ticket Number (Vertical in the White Stub slot)
       doc.save();
-      doc.translate(945, 110); 
-      doc.rotate(90);
-      doc.fillColor('#1a0e2e').font('Helvetica-Bold').fontSize(8)
-         .text(ticketNum, 0, 0);
+      doc.translate(910, 240); 
+      doc.rotate(270);
+      doc.fillColor('black').font('Helvetica-Bold').fontSize(12)
+          .text(ticketNum, 0, 0);
       doc.restore();
 
       doc.end();
