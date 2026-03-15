@@ -1150,6 +1150,26 @@ function renderSuccess() {
 // PROBLEM SELECTION PAGE
 // ══════════════════════════════════════════════════════
 function renderProblemSelection() {
+  const RELEASE_DATE = new Date('2026-04-03T17:00:00+05:30'); // April 3rd 5pm IST
+  const now = new Date();
+
+  if (now < RELEASE_DATE) {
+    return `
+      <div class="page-wrapper">
+        <div class="form-container" style="max-width:800px;text-align:center;padding:60px 20px;">
+          <div style="font-size:4rem;margin-bottom:20px;">⏳</div>
+          <h1 style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Coming Soon</h1>
+          <p style="color:var(--text-secondary);font-size:1.1rem;margin:20px 0;">
+            Problem statements for EVOLVE 1.0 will be released on <strong>April 3rd at 5:00 PM</strong>.
+          </p>
+          <div id="psCountdown" style="font-size:2.5rem;font-weight:700;color:var(--accent-2);margin:30px 0;font-family:monospace;"></div>
+          <p style="margin-top:30px;color:var(--text-muted);">Stay tuned and keep practicing!</p>
+          <a href="#/" class="btn-primary" style="display:inline-block;margin-top:32px;">Back to Home</a>
+        </div>
+      </div>
+    `;
+  }
+
   return `
     <div class="page-wrapper">
       <div class="form-container" style="max-width:900px;">
@@ -1175,17 +1195,17 @@ function renderProblemSelection() {
           <div class="ps-team-info" id="psTeamInfo"></div>
 
           <div class="ps-track">
-            <h3 class="ps-track-title">🔬 Track 1 — Tech for Her</h3>
+            <h3 class="ps-track-title">🔬 Track 1 — Cyber Security</h3>
             <div class="ps-cards" id="track1Cards"></div>
           </div>
 
           <div class="ps-track">
-            <h3 class="ps-track-title">📚 Track 2 — EduTech & Skills</h3>
+            <h3 class="ps-track-title">📚 Track 2 — FinTech & Security</h3>
             <div class="ps-cards" id="track2Cards"></div>
           </div>
 
           <div class="ps-track">
-            <h3 class="ps-track-title">🌍 Track 3 — Social Impact</h3>
+            <h3 class="ps-track-title">🌍 Track 3 — Social Safety</h3>
             <div class="ps-cards" id="track3Cards"></div>
           </div>
         </div>
@@ -1212,19 +1232,54 @@ function renderProblemSelection() {
 
 // Sample problem statements — replace with real ones when ready
 const PROBLEM_STATEMENTS = [
-  { id: 'T1-PS1', track: 1, title: 'Women Safety App', desc: 'Build a real-time safety alert system for women using GPS and AI-powered threat detection.' },
-  { id: 'T1-PS2', track: 1, title: 'Health-Tech for Her', desc: 'Create a personalized health monitoring app focused on women\'s wellness and preventive care.' },
-  { id: 'T1-PS3', track: 1, title: 'Financial Empowerment', desc: 'Design a micro-finance platform that helps women entrepreneurs manage and grow their businesses.' },
-  { id: 'T2-PS1', track: 2, title: 'Skill Bridge', desc: 'Build a mentorship platform connecting women students with industry professionals for skill development.' },
-  { id: 'T2-PS2', track: 2, title: 'Interactive Learning', desc: 'Create an adaptive learning tool that personalizes education paths for women in STEM fields.' },
-  { id: 'T2-PS3', track: 2, title: 'Career Navigator', desc: 'Design an AI-powered career guidance system specifically tailored for women entering the tech workforce.' },
-  { id: 'T3-PS1', track: 3, title: 'Community Connect', desc: 'Build a platform that connects women in rural areas to community resources, healthcare, and support networks.' },
-  { id: 'T3-PS2', track: 3, title: 'Green Impact', desc: 'Create a sustainability tracking app that empowers women-led initiatives in environmental conservation.' },
-  { id: 'T3-PS3', track: 3, title: 'Inclusive Finance', desc: 'Design a financial literacy and inclusion platform for women in underserved communities.' },
+  { 
+    id: 'PS1', 
+    track: 1, 
+    title: 'NetGuard — Fake WiFi & Public Network Threat Detection System', 
+    desc: 'Build a smart network security awareness and threat detection platform for public spaces. Features: Network Safety Analyzer, Rogue Network Detector, Live Threat Feed, and Connection History Auditor.' 
+  },
+  { 
+    id: 'PS2', 
+    track: 2, 
+    title: 'TrustChain — Secure Transaction Monitoring & Fraud Prevention Platform', 
+    desc: 'Real-time transaction monitoring and fraud prevention platform for UPI and welfare distribution. Includes: Risk Scorer, Velocity Fraud Detector, and Replay Attack Prevention.' 
+  },
+  { 
+    id: 'PS3', 
+    track: 3, 
+    title: 'SheSafe — Women\'s Safety Companion', 
+    desc: 'Comprehensive safety app with SOS system, Live Trip Sharing, Ride Verification, Buddy System, and Community Alert Board.' 
+  },
 ];
 
 function initProblemSelection() {
   initNavbar();
+
+  const RELEASE_DATE = new Date('2026-04-03T17:00:00+05:30');
+  const psCountdown = document.getElementById('psCountdown');
+
+  if (psCountdown) {
+    const updateCountdown = () => {
+      const now = new Date();
+      const diff = RELEASE_DATE - now;
+
+      if (diff <= 0) {
+        window.location.reload();
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+      psCountdown.textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
+    };
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    return;
+  }
 
   let verifiedTeam = null;
   let selectedProblem = null;
