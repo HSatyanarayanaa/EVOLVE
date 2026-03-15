@@ -13,7 +13,6 @@ const { sendTicketEmails, sendProblemReleaseEmails } = require('./email');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const isVercel = process.env.VERCEL === '1';
 
 // ── Middleware & Security ──────────────────────────────
 const helmet = require('helmet');
@@ -25,7 +24,7 @@ app.use(helmet());
 // Rate Limiter for Registration to prevent spam
 const registerLimiter = rateLimit({
     windowMs: 60 * 60 * 1000, // 1 hour window
-    max: 5, // Limit each IP to 5 registrations per `window`
+    max: 10, // Increased limit for testing
     message: {
         success: false,
         message: 'Too many registrations from this IP, please try again after an hour.',
@@ -74,10 +73,6 @@ app.post('/api/register', registerLimiter, async (req, res) => {
                     message: `Participant ${i + 1} must have all fields filled (name, register number, phone, email).`,
                 });
             }
-            // Domain validation check
-            if (college.toLowerCase().includes('srm') || college.toLowerCase().includes('rajalakshmi')) {
-                // Feel free to adjust these domains based on who you're targeting
-            }
         }
 
         // Append to Google Sheets
@@ -108,7 +103,6 @@ app.post('/api/register', registerLimiter, async (req, res) => {
 /**
  * POST /api/send-ticket
  * Body: { rowIndex } — the row number in the Google Sheet
- * Reads the row data, generates PDF, sends email
  */
 app.post('/api/send-ticket', async (req, res) => {
     try {
@@ -148,7 +142,7 @@ app.post('/api/send-ticket', async (req, res) => {
 
 /**
  * GET /api/registrations
- * Returns all registered teams (for admin dashboard or debugging)
+ * Returns all registered teams
  */
 app.get('/api/registrations', async (req, res) => {
     try {
@@ -166,7 +160,6 @@ app.get('/api/registrations', async (req, res) => {
 /**
  * POST /api/select-problem
  * Body: { teamName, problemId }
- * Team leader selects a problem statement
  */
 app.post('/api/select-problem', async (req, res) => {
     try {
@@ -206,7 +199,6 @@ app.post('/api/select-problem', async (req, res) => {
 /**
  * POST /api/notify-problems-released
  * Admin endpoint — sends email to all confirmed participants
- * Requires x-admin-secret header
  */
 app.post('/api/notify-problems-released', async (req, res) => {
     try {
@@ -224,7 +216,6 @@ app.post('/api/notify-problems-released', async (req, res) => {
             return res.json({ success: true, message: 'No confirmed teams to notify.' });
         }
 
-        // Collect all participant emails
         const allEmails = [];
         confirmed.forEach(team => {
             team.participants.forEach(p => {
@@ -250,70 +241,40 @@ app.post('/api/notify-problems-released', async (req, res) => {
     }
 });
 
-/**
- * GET /api/cron/check-confirmed
- * Triggered by Vercel Cron to auto-send tickets for manual sheet confirmations
- */
-app.get('/api/cron/check-confirmed', async (req, res) => {
+// ── Catch-all: serve index.html for SPA routing ─────
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
+
+// ── Automatic Email Polling ──────────────────────────
+// Checks Google Sheets every 60 seconds for newly confirmed teams
+setInterval(async () => {
     try {
-        console.log('⏰ Cron: Checking for newly confirmed teams...');
         const rows = await getAllRows();
         const pending = rows.filter(r =>
             r.confirmed.toUpperCase() === 'TRUE' &&
             r.ticketEmailed.toUpperCase() !== 'TRUE'
         );
 
-        let sentCount = 0;
         for (const team of pending) {
-            console.log(`⏳ Cron: Auto-sending ticket to team "${team.teamName}"...`);
+            console.log(`⏳ Auto-sending ticket to newly confirmed team "${team.teamName}"...`);
             await sendTicketEmails(team);
             await require('./sheets').markTicketEmailed(team.rowIndex);
-            sentCount++;
+            console.log(`✅ Ticket sent to "${team.teamName}" & stored in column W.`);
         }
-
-        res.json({ success: true, message: `Cron job completed. Sent ${sentCount} tickets.` });
-    } catch (error) {
-        console.error('❌ Cron error:', error.message);
-        res.status(500).json({ success: false, error: error.message });
+    } catch (err) {
+        console.error('Polling error:', err.message);
     }
-});
+}, 60000);
 
-// ── Catch-all: serve index.html for SPA routing ─────
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'index.html'));
-});
-
-// ── Start server (only locally, Vercel handles this automatically) ──
-if (!isVercel) {
-    // ── Automatic Email Polling (Local Logic) ──────────
-    // Checks Google Sheets every 60 seconds for newly confirmed teams
-    setInterval(async () => {
-        try {
-            const rows = await getAllRows();
-            const pending = rows.filter(r =>
-                r.confirmed.toUpperCase() === 'TRUE' &&
-                r.ticketEmailed.toUpperCase() !== 'TRUE'
-            );
-
-            for (const team of pending) {
-                console.log(`⏳ Auto-sending ticket to newly confirmed team "${team.teamName}"...`);
-                await sendTicketEmails(team);
-                await require('./sheets').markTicketEmailed(team.rowIndex);
-                console.log(`✅ Ticket sent to "${team.teamName}" & stored in column W.`);
-            }
-        } catch (err) {
-            console.error('Polling error:', err.message);
-        }
-    }, 60000);
-
-    app.listen(PORT, () => {
-        console.log(`
+// ── Start server ─────────────────────────────────────
+app.listen(PORT, () => {
+    console.log(`
   ╔══════════════════════════════════════════╗
   ║    EVOLVE 1.0 Server Running           ║
   ║    http://localhost:${PORT}               ║
   ╚══════════════════════════════════════════╝
   `);
-    });
-}
+});
 
 module.exports = app;
