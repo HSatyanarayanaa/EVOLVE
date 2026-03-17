@@ -206,6 +206,10 @@ async function sendTicketEmails(data) {
       </div>
       <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; margin-bottom: 20px;">
         <h2 style="color: #22c55e; font-size: 20px; margin: 0 0 12px;">✅ Registration Confirmed!</h2>
+        <div style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(236,72,153,0.2)); border: 1px solid rgba(168,85,247,0.3); border-radius: 8px; padding: 15px; margin-bottom: 15px; text-align: center;">
+          <p style="color: #fff; font-size: 16px; margin: 0; font-weight: bold;">📅 Event Date: April 7th, 2026</p>
+          <p style="color: #d1d5db; font-size: 12px; margin: 5px 0 0;">Mark your calendars!</p>
+        </div>
         <p style="color: #d1d5db; font-size: 15px; margin: 0 0 8px;">
           Congratulations! Your team <strong style="color: #f0eef6;">"${data.teamName}"</strong> has been successfully registered for EVOLVE 1.0.
         </p>
@@ -245,6 +249,10 @@ async function sendTicketEmails(data) {
       </div>
       <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; margin-bottom: 20px;">
         <h2 style="color: #22c55e; font-size: 20px; margin: 0 0 12px;">✅ Registration Confirmed!</h2>
+        <div style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(236,72,153,0.2)); border: 1px solid rgba(168,85,247,0.3); border-radius: 8px; padding: 15px; margin-bottom: 15px; text-align: center;">
+          <p style="color: #fff; font-size: 16px; margin: 0; font-weight: bold;">📅 Event Date: April 7th, 2026</p>
+          <p style="color: #d1d5db; font-size: 12px; margin: 5px 0 0;">Mark your calendars!</p>
+        </div>
         <p style="color: #d1d5db; font-size: 15px; margin: 0 0 8px;">
           Congratulations! Your team <strong style="color: #f0eef6;">"${data.teamName}"</strong> has been successfully registered for EVOLVE 1.0.
         </p>
