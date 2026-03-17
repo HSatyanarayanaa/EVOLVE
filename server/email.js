@@ -140,6 +140,12 @@ function generateTicketPDF(data) {
           lineGap: -2
       });
 
+      // 1.5. Event Date (Horizontal next to Team Name)
+      doc.text('07.04.2026', 565, 145, {
+          width: 200,
+          align: 'center'
+      });
+
       // 2. Team ID (Vertical in the Pink Section slot)
       doc.save();
       // Legacy position: x=645, y=110
