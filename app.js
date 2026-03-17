@@ -493,7 +493,7 @@ function renderLanding() {
       <div class="event-date-container reveal">
         <div class="date-glow"></div>
         <div class="date-label">Save the Date</div>
-        <div class="date-value">APRIL 6, 2026</div>
+        <div class="date-value">APRIL 7, 2026</div>
         <div class="date-decoration">
           <span></span><span></span><span></span>
         </div>
@@ -546,7 +546,7 @@ function renderLanding() {
       </div>
       <div class="tracks-release-box reveal">
         <div class="release-icon">🚀</div>
-        <h3 class="release-title">Problem Statements will be released on<br><span class="release-date">3rd April 2026, 5:00 PM</span></h3>
+        <h3 class="release-title">Problem Statements will be released on<br><span class="release-date">4th April 2026, 5:00 PM</span></h3>
         <p class="release-subtitle">Stay tuned! All registered teams will receive an email notification when the problem statements go live.</p>
         <div class="release-countdown">
           <div class="countdown-item"><span id="countdown-days">--</span><small>Days</small></div>
@@ -801,8 +801,8 @@ function initLanding() {
     });
   });
 
-  // Countdown to April 6, 2026
-  const releaseDate = new Date('2026-04-06T00:00:00+05:30').getTime();
+  // Countdown to April 4, 2026, 5:00 PM
+  const releaseDate = new Date('2026-04-04T17:00:00+05:30').getTime();
   function updateCountdown() {
     const now = Date.now();
     const diff = releaseDate - now;
@@ -1150,7 +1150,7 @@ function renderSuccess() {
 // PROBLEM SELECTION PAGE
 // ══════════════════════════════════════════════════════
 function renderProblemSelection() {
-  const RELEASE_DATE = new Date('2026-04-03T17:00:00+05:30'); // April 3rd 5pm IST
+  const RELEASE_DATE = new Date('2026-04-04T17:00:00+05:30'); // April 4th 5pm IST
   const now = new Date();
 
   if (now < RELEASE_DATE) {
@@ -1160,7 +1160,7 @@ function renderProblemSelection() {
           <div style="font-size:4rem;margin-bottom:20px;">⏳</div>
           <h1 style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Coming Soon</h1>
           <p style="color:var(--text-secondary);font-size:1.1rem;margin:20px 0;">
-            Problem statements for EVOLVE 1.0 will be released on <strong>April 3rd at 5:00 PM</strong>.
+            Problem statements for EVOLVE 1.0 will be released on <strong>April 4th at 5:00 PM</strong>.
           </p>
           <div id="psCountdown" style="font-size:2.5rem;font-weight:700;color:var(--accent-2);margin:30px 0;font-family:monospace;"></div>
           <p style="margin-top:30px;color:var(--text-muted);">Stay tuned and keep practicing!</p>
@@ -1307,7 +1307,7 @@ const PROBLEM_STATEMENTS = [
 function initProblemSelection() {
   initNavbar();
 
-  const RELEASE_DATE = new Date('2026-04-03T17:00:00+05:30');
+  const RELEASE_DATE = new Date('2026-04-04T17:00:00+05:30');
   const psCountdown = document.getElementById('psCountdown');
 
   if (psCountdown) {

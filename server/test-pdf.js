@@ -90,7 +90,7 @@ function generateTicketPDF(data) {
             doc.fillColor('#6b3fa0').fontSize(8).font('Helvetica-Bold')
                 .text('DATE', cx + 300, rowY - 2);
             doc.fillColor('#1a0e2e').fontSize(16).font('Helvetica-Bold')
-                .text('06.04.2026', cx + 300, rowY + 10);
+                .text('07.04.2026', cx + 300, rowY + 10);
 
             const row2Y = 200;
 
