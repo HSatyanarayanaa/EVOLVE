@@ -206,9 +206,10 @@ async function sendTicketEmails(data) {
       </div>
       <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; margin-bottom: 20px;">
         <h2 style="color: #22c55e; font-size: 20px; margin: 0 0 12px;">✅ Registration Confirmed!</h2>
-        <div style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(236,72,153,0.2)); border: 1px solid rgba(168,85,247,0.3); border-radius: 8px; padding: 15px; margin-bottom: 15px; text-align: center;">
-          <p style="color: #fff; font-size: 16px; margin: 0; font-weight: bold;">📅 Event Date: April 7th, 2026</p>
-          <p style="color: #d1d5db; font-size: 12px; margin: 5px 0 0;">Mark your calendars!</p>
+        <div style="background: rgba(168, 85, 247, 0.1); border: 2px solid #a855f7; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center;">
+          <div style="color: #a855f7; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-bottom: 8px;">🗓️ Save the Date</div>
+          <div style="color: #fff; font-size: 28px; font-weight: 800; margin: 5px 0;">April 7th, 2026</div>
+          <div style="color: #d1d5db; font-size: 14px; margin-top: 5px;">Event Day Schedule begins at 8:30 AM</div>
         </div>
         <p style="color: #d1d5db; font-size: 15px; margin: 0 0 8px;">
           Congratulations! Your team <strong style="color: #f0eef6;">"${data.teamName}"</strong> has been successfully registered for EVOLVE 1.0.
@@ -249,9 +250,10 @@ async function sendTicketEmails(data) {
       </div>
       <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; margin-bottom: 20px;">
         <h2 style="color: #22c55e; font-size: 20px; margin: 0 0 12px;">✅ Registration Confirmed!</h2>
-        <div style="background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(236,72,153,0.2)); border: 1px solid rgba(168,85,247,0.3); border-radius: 8px; padding: 15px; margin-bottom: 15px; text-align: center;">
-          <p style="color: #fff; font-size: 16px; margin: 0; font-weight: bold;">📅 Event Date: April 7th, 2026</p>
-          <p style="color: #d1d5db; font-size: 12px; margin: 5px 0 0;">Mark your calendars!</p>
+        <div style="background: rgba(168, 85, 247, 0.1); border: 2px solid #a855f7; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center;">
+          <div style="color: #a855f7; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-bottom: 8px;">🗓️ Save the Date</div>
+          <div style="color: #fff; font-size: 28px; font-weight: 800; margin: 5px 0;">April 7th, 2026</div>
+          <div style="color: #d1d5db; font-size: 14px; margin-top: 5px;">Event Day Schedule begins at 8:30 AM</div>
         </div>
         <p style="color: #d1d5db; font-size: 15px; margin: 0 0 8px;">
           Congratulations! Your team <strong style="color: #f0eef6;">"${data.teamName}"</strong> has been successfully registered for EVOLVE 1.0.
