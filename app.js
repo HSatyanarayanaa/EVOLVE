@@ -1611,7 +1611,7 @@ function initProblemSelection() {
         </div>` : ''}
       </div>
       <div class="modal-footer">
-        <button class="btn-outline" style="padding:12px 24px;" onclick="document.getElementById('psDetailModal').style.display='none'">Back</button>
+        <button class="btn-outline" style="padding:12px 24px;" id="btnBackFromDetail">Back</button>
         <button class="btn-primary" style="padding:12px 32px;" id="btnSelectFromDetail" data-id="${p.id}" data-title="${p.title}">
           <span class="btn-shimmer"></span>
           Select This Problem
@@ -1621,13 +1621,20 @@ function initProblemSelection() {
 
     modalDetail.style.display = 'flex';
 
-    // Handler for selection inside detail modal
-    document.getElementById('btnSelectFromDetail').addEventListener('click', (e) => {
-      modalDetail.style.display = 'none';
-      selectedProblem = { id: e.target.dataset.id, title: e.target.dataset.title };
-      modalProblemName.textContent = `${selectedProblem.id}: ${selectedProblem.title}`;
-      modal.style.display = 'flex';
-    });
+    // Delegated click handler for Back and Select buttons
+    detailContent.onclick = (e) => {
+      const backBtn = e.target.closest('#btnBackFromDetail');
+      const selectBtn = e.target.closest('#btnSelectFromDetail');
+      if (backBtn) {
+        modalDetail.style.display = 'none';
+      }
+      if (selectBtn) {
+        modalDetail.style.display = 'none';
+        selectedProblem = { id: selectBtn.dataset.id, title: selectBtn.dataset.title };
+        modalProblemName.textContent = `${selectedProblem.id}: ${selectedProblem.title}`;
+        modal.style.display = 'flex';
+      }
+    };
   }
 
   btnCancel.addEventListener('click', () => {
