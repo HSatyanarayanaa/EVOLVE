@@ -351,7 +351,7 @@ function renderNavbar() {
         <li><a href="#/" data-scroll="rules">Rules</a></li>
         <li><a href="#/" data-scroll="coordinators">Contact</a></li>
       </ul>
-      <a href="#/register" class="nav-cta">Register Now</a>
+      <span class="nav-cta" style="background: var(--bg-surface); color: var(--text-secondary); cursor: not-allowed; border: 1px solid rgba(255,255,255,0.1);">Registration Closed</span>
       <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
@@ -406,8 +406,8 @@ function renderLanding() {
     <!-- Hero -->
     <section class="hero" id="hero">
       <div class="hero-badge">
-        <span class="dot"></span>
-        Registration Open • March 2026
+        <span class="dot" style="background-color: #ff4444; box-shadow: 0 0 10px #ff4444;"></span>
+        Registration Closed
       </div>
 
       <div class="hero-logo-wrapper">
@@ -427,10 +427,10 @@ function renderLanding() {
       <p class="subtitle">A An inter-college hackathon for social impact & Innovation — Innovate, Create & Empower through Technology</p>
 
       <div class="hero-actions">
-        <a href="#/register" class="btn-primary">
+        <!-- <a href="#/register" class="btn-primary">
           <span class="btn-shimmer"></span>
           Register Your Team
-        </a>
+        </a> -->
       </div>
 
       <div class="hero-stats">
@@ -546,7 +546,7 @@ function renderLanding() {
       </div>
       <div class="tracks-release-box reveal">
         <div class="release-icon">🚀</div>
-        <h3 class="release-title">Problem Statements will be released on<br><span class="release-date">4th April 2026, 5:00 PM</span></h3>
+        <h3 class="release-title">Problem Statements will be released on<br><span class="release-date">5th April 2026, 8:00 AM IST</span></h3>
         <p class="release-subtitle">Stay tuned! All registered teams will receive an email notification when the problem statements go live.</p>
         <div class="release-countdown">
           <div class="countdown-item"><span id="countdown-days">--</span><small>Days</small></div>
@@ -722,12 +722,12 @@ function renderLanding() {
     <section class="section cta-section">
       <div class="cta-box reveal">
         <div class="cta-glow"></div>
-        <div class="section-tag">Ready to Innovate?</div>
-        <h2 class="section-title">Register Your Team Today</h2>
-        <a href="#/register" class="btn-primary" style="display:inline-block;margin-top:20px;">
+        <div class="section-tag">Event Update</div>
+        <h2 class="section-title">Registration Closed</h2>
+        <!-- <a href="#/register" class="btn-primary" style="display:inline-block;margin-top:20px;">
           <span class="btn-shimmer"></span>
           Register Now — ₹200/team
-        </a>
+        </a> -->
       </div>
     </section>
 
@@ -741,7 +741,7 @@ function renderLanding() {
         <a href="#timeline" data-scroll="timeline">Timeline</a>
         <a href="#rules" data-scroll="rules">Rules</a>
         <a href="#coordinators" data-scroll="coordinators">Contact</a>
-        <a href="#/register">Register</a>
+        <!-- <a href="#/register">Register</a> -->
       </div>
       <p style="margin-top:24px;font-size:0.8rem;">© 2026 EVOLVE 1.0. All rights reserved.</p>
     </footer>`;
@@ -801,8 +801,8 @@ function initLanding() {
     });
   });
 
-  // Countdown to April 4, 2026, 5:00 PM
-  const releaseDate = new Date('2026-04-04T17:00:00+05:30').getTime();
+  // Countdown to April 5, 2026, 8:00 AM
+  const releaseDate = new Date('2026-04-05T08:00:00+05:30').getTime();
   function updateCountdown() {
     const now = Date.now();
     const diff = releaseDate - now;
@@ -1150,7 +1150,7 @@ function renderSuccess() {
 // PROBLEM SELECTION PAGE
 // ══════════════════════════════════════════════════════
 function renderProblemSelection() {
-  const RELEASE_DATE = new Date('2026-04-04T17:00:00+05:30'); // April 4th 5pm IST
+  const RELEASE_DATE = new Date('2026-04-05T08:00:00+05:30'); // April 5th 8am IST
   const now = new Date();
 
   if (now < RELEASE_DATE) {
@@ -1160,7 +1160,7 @@ function renderProblemSelection() {
           <div style="font-size:4rem;margin-bottom:20px;">⏳</div>
           <h1 style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Coming Soon</h1>
           <p style="color:var(--text-secondary);font-size:1.1rem;margin:20px 0;">
-            Problem statements for EVOLVE 1.0 will be released on <strong>April 4th at 5:00 PM</strong>.
+            Problem statements for EVOLVE 1.0 will be released on <strong>April 5th at 8:00 AM IST</strong>.
           </p>
           <div id="psCountdown" style="font-size:2.5rem;font-weight:700;color:var(--accent-2);margin:30px 0;font-family:monospace;"></div>
           <p style="margin-top:30px;color:var(--text-muted);">Stay tuned and keep practicing!</p>
@@ -1307,7 +1307,7 @@ const PROBLEM_STATEMENTS = [
 function initProblemSelection() {
   initNavbar();
 
-  const RELEASE_DATE = new Date('2026-04-04T17:00:00+05:30');
+  const RELEASE_DATE = new Date('2026-04-05T08:00:00+05:30');
   const psCountdown = document.getElementById('psCountdown');
 
   if (psCountdown) {
