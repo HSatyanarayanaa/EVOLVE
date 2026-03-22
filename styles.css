@@ -2161,6 +2161,7 @@ textarea {
     max-height: 85vh;
     overflow-y: auto;
     padding: 0 !important;
+    background: var(--bg-primary) !important;
 }
 
 .ps-detail-header {

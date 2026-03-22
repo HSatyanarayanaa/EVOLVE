@@ -1250,7 +1250,7 @@ const PROBLEM_STATEMENTS = [
 
 This is not a CRUD application with a fraud label on it. The integrity mechanisms must be real, verifiable, and demonstrably unbypassable.
 
-Dataset : CivicShield_Dataset.xlsx`,
+Dataset : <a href="https://docs.google.com/spreadsheets/d/1JiplJvyJ5sjpTjqFJCgL43DzZCryiIYR/edit?gid=208810484#gid=208810484" target="_blank" style="color:var(--accent-3); text-decoration:underline;">CivicShield_Dataset.xlsx</a>`,
     background: `India's public welfare disbursement systems lose thousands of crores annually — not because funds are unavailable, but because the distribution pipeline has no integrity layer. The same identity claims benefits across multiple regions simultaneously. Cooling windows are gamed by automated scripts. Disbursement ledgers are quietly altered by insiders after the fact. Beneficiaries who died years ago continue receiving monthly payments as ghost entries in poorly maintained registries.
 
 CivicShield is your mandate to fix this.`,
@@ -1611,7 +1611,7 @@ function initProblemSelection() {
         </div>` : ''}
       </div>
       <div class="modal-footer">
-        <button class="btn-outline" style="padding:12px 24px;" onclick="document.getElementById('psDetailModal').style.display='none'">Close Details</button>
+        <button class="btn-outline" style="padding:12px 24px;" onclick="document.getElementById('psDetailModal').style.display='none'">Back</button>
         <button class="btn-primary" style="padding:12px 32px;" id="btnSelectFromDetail" data-id="${p.id}" data-title="${p.title}">
           <span class="btn-shimmer"></span>
           Select This Problem
