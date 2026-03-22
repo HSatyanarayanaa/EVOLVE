@@ -9,7 +9,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { appendRegistration, getRow, getAllRows, updateProblemSelection, getConfirmedTeams } = require('./sheets');
-const { sendTicketEmails, sendProblemReleaseEmails } = require('./email');
+const { sendTicketEmails, sendProblemReleaseEmails, sendProblemSelectionEmail } = require('./email');
+const PROBLEM_STATEMENTS = require('./problemStatements');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -191,6 +192,21 @@ app.post('/api/select-problem', async (req, res) => {
         }
 
         console.log(`🎯 Team "${teamName}" selected problem: ${problemId} (row ${result.rowIndex})`);
+
+        // Send problem details email to all participants
+        try {
+            const data = await getRow(result.rowIndex);
+            if (data) {
+                const problem = PROBLEM_STATEMENTS.find(p => p.id === problemId);
+                if (problem) {
+                    await sendProblemSelectionEmail(data, problem);
+                } else {
+                    console.error(`❌ Problem statement ${problemId} not found in problemStatements.js`);
+                }
+            }
+        } catch (emailErr) {
+            console.error('❌ Failed to send problem selection email:', emailErr.message);
+        }
 
         res.json({
             success: true,

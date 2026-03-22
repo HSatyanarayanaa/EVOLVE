@@ -383,4 +383,91 @@ async function sendProblemReleaseEmails(emails) {
   return result;
 }
 
-module.exports = { sendTicketEmails, generateTicketPDF, sendProblemReleaseEmails };
+/**
+ * Send full problem statement details to all participants after problem selection
+ * @param {Object} data - Registration data with participants[]
+ * @param {Object} problem - Problem statement object
+ */
+async function sendProblemSelectionEmail(data, problem) {
+  const gmail = getGmailClient();
+
+  const allEmails = (data.participants || [])
+    .map(p => p.email)
+    .filter(email => email && email.includes('@'));
+
+  if (allEmails.length === 0) {
+    throw new Error('No emails to send to');
+  }
+
+  const uniqueEmails = [...new Set(allEmails)];
+  const from = `"EVOLVE 1.0" <${process.env.SMTP_EMAIL}>`;
+  const subject = `🎯 EVOLVE 1.0 — Problem Statement Confirmed: ${problem.id}`;
+
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, sans-serif; max-width: 650px; margin: 0 auto; background: #0f0f1e; padding: 40px 30px; border-radius: 16px;">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <h1 style="color: #a855f7; font-size: 28px; margin: 0;">EVOLVE 1.0</h1>
+        <p style="color: #9ca3af; font-size: 14px; margin: 8px 0 0;">An inter-college hackathon for social impact & Innovation</p>
+      </div>
+      <div style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); border-radius: 12px; padding: 24px; margin-bottom: 20px;">
+        <h2 style="color: #22c55e; font-size: 20px; margin: 0 0 12px;">✅ Problem Statement Confirmed!</h2>
+        <p style="color: #d1d5db; font-size: 15px; margin: 0 0 8px;">
+          Your team <strong style="color: #f0eef6;">"${data.teamName}"</strong> has successfully locked in their problem statement.
+        </p>
+      </div>
+      
+      <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px;">
+        <div style="display: inline-block; padding: 6px 14px; background: rgba(168,85,247,0.2); border-radius: 50px; font-size: 12px; font-weight: bold; color: #d8b4fe; margin-bottom: 12px; text-transform: uppercase;">Track ${problem.track}</div>
+        <h3 style="color: #f3f4f6; font-size: 22px; margin: 0 0 8px;">${problem.title}</h3>
+        <p style="color: #9ca3af; font-size: 13px; margin: 0 0 20px;">${problem.sdg}</p>
+        
+        <h4 style="color: #a855f7; font-size: 16px; margin: 0 0 10px; border-bottom: 1px solid rgba(168,85,247,0.2); padding-bottom: 4px;">Problem Statement</h4>
+        <p style="color: #d1d5db; font-size: 14px; line-height: 1.6; white-space: pre-line; margin-bottom: 20px;">${problem.problemStatement}</p>
+        
+        <h4 style="color: #a855f7; font-size: 16px; margin: 0 0 10px; border-bottom: 1px solid rgba(168,85,247,0.2); padding-bottom: 4px;">Background</h4>
+        <p style="color: #d1d5db; font-size: 14px; line-height: 1.6; white-space: pre-line; margin-bottom: 20px;">${problem.background}</p>
+        
+        <h4 style="color: #a855f7; font-size: 16px; margin: 0 0 10px; border-bottom: 1px solid rgba(168,85,247,0.2); padding-bottom: 4px;">Mandatory Features</h4>
+        <ul style="color: #d1d5db; font-size: 14px; line-height: 1.6; padding-left: 20px; margin-bottom: 20px;">
+          ${problem.features.map(f => `<li style="margin-bottom: 10px;"><strong>${f.name}</strong><br/>\n<span style="white-space: pre-line;">${f.desc}</span></li>`).join('')}
+        </ul>
+        
+        ${problem.hardware ? `
+        <h4 style="color: #a855f7; font-size: 16px; margin: 0 0 10px; border-bottom: 1px solid rgba(168,85,247,0.2); padding-bottom: 4px;">Hardware Add-on (Optional)</h4>
+        <p style="color: #d1d5db; font-size: 14px; line-height: 1.6; white-space: pre-line; margin-bottom: 20px;"><strong>Components:</strong> ${problem.hardware.components}<br/><br/>${problem.hardware.description}</p>
+        ` : ''}
+
+        ${problem.constraints ? `
+        <h4 style="color: #ef4444; font-size: 16px; margin: 0 0 10px; border-bottom: 1px solid rgba(239,68,68,0.2); padding-bottom: 4px;">Constraints & Rules</h4>
+        <p style="color: #d1d5db; font-size: 14px; line-height: 1.6; white-space: pre-line; margin-bottom: 20px;">${problem.constraints}</p>
+        ` : ''}
+
+        ${problem.bonus ? `
+        <h4 style="color: #eab308; font-size: 16px; margin: 0 0 10px; border-bottom: 1px solid rgba(234,179,8,0.2); padding-bottom: 4px;">Bonus (Optional)</h4>
+        <p style="color: #d1d5db; font-size: 14px; line-height: 1.6; white-space: pre-line; margin-bottom: 20px;">${problem.bonus}</p>
+        ` : ''}
+      </div>
+      
+      <p style="color: #4b5563; font-size: 11px; text-align: center; margin-top: 24px;">
+        © 2026 EVOLVE 1.0 | Rajalakshmi Institute of Technology
+      </p>
+    </div>
+  `;
+
+  const rawMessage = buildRawEmail({
+    from,
+    to: uniqueEmails.join(', '),
+    subject,
+    html,
+  });
+
+  const result = await gmail.users.messages.send({
+    userId: 'me',
+    requestBody: { raw: rawMessage },
+  });
+
+  console.log(`📧 Problem details email sent to ${uniqueEmails.length} participants (id: ${result.data.id})`);
+  return result;
+}
+
+module.exports = { sendTicketEmails, generateTicketPDF, sendProblemReleaseEmails, sendProblemSelectionEmail };
