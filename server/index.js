@@ -55,7 +55,15 @@ app.get('/api/health', (req, res) => {
  * POST /api/register
  * Body: { teamName, college, participants: [{name, reg, phone, email}], transactionId }
  */
+const REGISTRATION_CLOSED = true;
+
 app.post('/api/register', registerLimiter, async (req, res) => {
+    if (REGISTRATION_CLOSED) {
+        return res.status(403).json({
+            success: false,
+            message: 'Registration is closed.',
+        });
+    }
     try {
         const { teamName, college, participants, transactionId } = req.body;
 

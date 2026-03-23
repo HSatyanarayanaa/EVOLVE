@@ -312,17 +312,10 @@ function router() {
 
   const isCrossPageScroll = !!localStorage.getItem('scrollToSection');
 
-  if (hash === '#/register') {
-    app.innerHTML = particles + renderNavbar() + renderRegistration();
-    initRegistrationForm();
-  } else if (hash === '#/payment') {
-    app.innerHTML = particles + renderNavbar() + renderPayment();
-    initPaymentForm();
-  } else if (hash === '#/success') {
-    app.innerHTML = particles + renderNavbar() + renderSuccess();
-  } else if (hash === '#/select-problem') {
-    app.innerHTML = particles + renderNavbar() + renderProblemSelection();
-    initProblemSelection();
+  // Registration is closed — redirect any registration routes to landing
+  if (hash === '#/register' || hash === '#/payment' || hash === '#/success' || hash === '#/select-problem') {
+    window.location.hash = '#/';
+    return;
   } else {
     app.innerHTML = particles + renderNavbar() + renderLanding();
     initLanding();
