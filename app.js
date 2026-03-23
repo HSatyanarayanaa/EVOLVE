@@ -312,10 +312,22 @@ function router() {
 
   const isCrossPageScroll = !!localStorage.getItem('scrollToSection');
 
-  // Registration is closed — redirect any registration routes to landing
-  if (hash === '#/register' || hash === '#/payment' || hash === '#/success' || hash === '#/select-problem') {
+  // Registration is permanently closed
+  if (hash === '#/register' || hash === '#/payment' || hash === '#/success') {
     window.location.hash = '#/';
     return;
+  }
+
+  // Problem selection only available after release date (April 5th 8:00 AM IST)
+  const RELEASE_DATE = new Date('2026-04-05T08:00:00+05:30');
+  if (hash === '#/select-problem' && new Date() < RELEASE_DATE) {
+    window.location.hash = '#/';
+    return;
+  }
+
+  if (hash === '#/select-problem') {
+    app.innerHTML = particles + renderNavbar() + renderProblemSelection();
+    initProblemSelection();
   } else {
     app.innerHTML = particles + renderNavbar() + renderLanding();
     initLanding();
