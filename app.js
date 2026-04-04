@@ -1393,8 +1393,7 @@ All analyses must be rendered as interactive visualizations in the UI.` },
 • Must support bulk citation export (download as .txt or .bib file).
 • Citation accuracy will be spot-checked.` },
       { name: 'Agent 4 — Summarization & Synthesis Agent', desc: `Generate a structured summary for any individual paper.
-• Generate cross-paper synthesis when multiple papers are selected (identifying common themes, contradictions, or gaps).
-• Must make live LLM calls, not use template-based string formatting.` },
+• Generate cross-paper synthesis when multiple papers are selected (identifying common themes, contradictions, or gaps).` },
       { name: 'Orchestrator System', desc: `A central layer coordinating agents based on execution plan.
 • Support sequential and conditional execution.
 • Orchestration logic must be visible to user (trace log, execution timeline).
