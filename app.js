@@ -328,6 +328,9 @@ function router() {
   if (hash === '#/select-problem') {
     app.innerHTML = particles + renderNavbar() + renderProblemSelection();
     initProblemSelection();
+  } else if (hash === '#/problems') {
+    app.innerHTML = particles + renderNavbar() + renderPublicProblems();
+    initPublicProblems();
   } else {
     app.innerHTML = particles + renderNavbar() + renderLanding();
     initLanding();
@@ -355,6 +358,7 @@ function renderNavbar() {
         <li><a href="#/" data-scroll="tracks">Tracks</a></li>
         <li><a href="#/" data-scroll="rules">Rules</a></li>
         <li><a href="#/" data-scroll="coordinators">Contact</a></li>
+        ${new Date() >= new Date('2026-04-05T08:00:00+05:30') ? '<li><a href="#/problems" style="color:var(--accent-3);font-weight:600;">Problem Statements</a></li>' : ''}
       </ul>
       <span class="nav-cta" style="background: var(--bg-surface); color: var(--text-secondary); cursor: not-allowed; border: 1px solid rgba(255,255,255,0.1);">Registration Closed</span>
       <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -550,15 +554,28 @@ function renderLanding() {
         <h2 class="section-title">Problem Statements</h2>
       </div>
       <div class="tracks-release-box reveal">
-        <div class="release-icon">🚀</div>
-        <h3 class="release-title">Problem Statements will be released on<br><span class="release-date">5th April 2026, 8:00 AM IST</span></h3>
-        <p class="release-subtitle">Stay tuned! All registered teams will receive an email notification when the problem statements go live.</p>
-        <div class="release-countdown">
-          <div class="countdown-item"><span id="countdown-days">--</span><small>Days</small></div>
-          <div class="countdown-item"><span id="countdown-hours">--</span><small>Hours</small></div>
-          <div class="countdown-item"><span id="countdown-mins">--</span><small>Minutes</small></div>
-          <div class="countdown-item"><span id="countdown-secs">--</span><small>Seconds</small></div>
-        </div>
+        ${new Date() >= new Date('2026-04-05T08:00:00+05:30') 
+          ? `
+            <div class="release-icon">⚡</div>
+            <h3 class="release-title">Problem Statements are <span class="release-date">LIVE!</span></h3>
+            <p class="release-subtitle">Explore the tracks and select the challenge that best fits your team's skills.</p>
+            <a href="#/problems" class="btn-primary" style="display:inline-block;margin-top:20px;">
+              <span class="btn-shimmer"></span>
+              View Problem Statements
+            </a>
+          `
+          : `
+            <div class="release-icon">🚀</div>
+            <h3 class="release-title">Problem Statements will be released on<br><span class="release-date">5th April 2026, 8:00 AM IST</span></h3>
+            <p class="release-subtitle">Stay tuned! All registered teams will receive an email notification when the problem statements go live.</p>
+            <div class="release-countdown">
+              <div class="countdown-item"><span id="countdown-days">--</span><small>Days</small></div>
+              <div class="countdown-item"><span id="countdown-hours">--</span><small>Hours</small></div>
+              <div class="countdown-item"><span id="countdown-mins">--</span><small>Minutes</small></div>
+              <div class="countdown-item"><span id="countdown-secs">--</span><small>Seconds</small></div>
+            </div>
+          `
+        }
       </div>
     </section>
 
@@ -1682,4 +1699,161 @@ function initProblemSelection() {
       btnConfirm.textContent = 'Confirm';
     }
   });
+}
+
+// ══════════════════════════════════════════════════════
+// PUBLIC PROBLEM STATEMENTS PAGE
+// ══════════════════════════════════════════════════════
+function renderPublicProblems() {
+  return `
+    <div class="page-wrapper">
+      <div class="form-container" style="max-width:900px;">
+        <h1 style="margin-bottom: 10px;">Problem Statements</h1>
+        <p class="form-subtitle" style="margin-bottom: 40px;">Explore the challenges for EVOLVE 1.0. Team leaders can select their preferred problem statement through the portal link sent to their email.</p>
+
+        <div id="publicProblemsSection">
+          <div class="ps-track">
+            <h3 class="ps-track-title">🔬 Track 1 — Cyber Security</h3>
+            <div class="ps-cards" id="publicTrack1Cards"></div>
+          </div>
+
+          <div class="ps-track">
+            <h3 class="ps-track-title">📚 Track 2 — FinTech & Security</h3>
+            <div class="ps-cards" id="publicTrack2Cards"></div>
+          </div>
+
+          <div class="ps-track">
+            <h3 class="ps-track-title">🌍 Track 3 — Social Safety</h3>
+            <div class="ps-cards" id="publicTrack3Cards"></div>
+          </div>
+        </div>
+
+        <!-- Detailed Problem Modal -->
+        <div class="modal-overlay" id="publicPsDetailModal" style="display:none;">
+          <div class="modal-card ps-detail-modal" id="publicPsDetailContent">
+            <!-- Content injected dynamically -->
+          </div>
+        </div>
+
+      </div>
+    </div>`;
+}
+
+function initPublicProblems() {
+  initNavbar();
+
+  const modalDetail = document.getElementById('publicPsDetailModal');
+  const detailContent = document.getElementById('publicPsDetailContent');
+
+  function renderCards(trackNum, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const problems = PROBLEM_STATEMENTS.filter(p => p.track === trackNum);
+    container.innerHTML = problems.map(p => `
+      <div class="ps-card" data-id="${p.id}">
+        <div class="ps-card-id">${p.id}</div>
+        <h4>${p.title}</h4>
+        <p>${p.summary}</p>
+        <div style="display:flex;gap:10px;margin-top:auto;">
+          <button class="btn-details" style="flex:1;" data-id="${p.id}">View Full Details</button>
+        </div>
+      </div>
+    `).join('');
+
+    // Add click handlers for details
+    container.querySelectorAll('.btn-details').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const problem = PROBLEM_STATEMENTS.find(p => p.id === btn.dataset.id);
+        if (problem) showDetails(problem);
+      });
+    });
+  }
+
+  function showDetails(p) {
+    detailContent.innerHTML = `
+      <div class="ps-detail-header">
+        <span class="ps-detail-track-badge">Track ${p.track}</span>
+        <h2>${p.title}</h2>
+        <span class="ps-detail-sdg-tag">${p.sdg}</span>
+      </div>
+      <div class="ps-detail-body">
+        <div class="ps-section">
+          <div class="ps-section-title">
+            <i class="fas fa-bullseye"></i> Problem Statement
+          </div>
+          <p class="ps-text" style="white-space: pre-line;">${p.problemStatement}</p>
+        </div>
+
+        <div class="ps-section">
+          <div class="ps-section-title">
+            <i class="fas fa-history"></i> Problem Background
+          </div>
+          <p class="ps-text" style="white-space: pre-line;">${p.background}</p>
+        </div>
+
+        <div class="ps-section">
+          <div class="ps-section-title">
+            <i class="fas fa-list-check"></i> Mandatory Components & Features
+          </div>
+          <div class="ps-feature-grid">
+            ${p.features.map(f => `
+              <div class="ps-feature-item">
+                <span class="ps-feature-name">${f.name}</span>
+                <p class="ps-feature-desc" style="white-space: pre-line; margin-top: 8px;">${f.desc}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        ${p.hardware ? `
+        <div class="ps-section">
+          <div class="ps-section-title">
+            <i class="fas fa-microchip"></i> Hardware Add-on (Optional)
+          </div>
+          <div class="ps-hardware-box">
+             <div class="ps-hardware-title">📟 Hardware Components</div>
+             <p class="ps-text" style="font-size:0.95rem;">${p.hardware.components}</p>
+             
+             <div class="ps-hardware-title" style="margin-top:20px;">🛡️ What it does</div>
+             <p class="ps-text" style="font-size:0.95rem; white-space: pre-line;">${p.hardware.description}</p>
+          </div>
+        </div>` : ''}
+
+        ${p.constraints ? `
+        <div class="ps-section">
+          <div class="ps-section-title">
+            <i class="fas fa-exclamation-triangle"></i> Constraints & Rules
+          </div>
+          <div class="ps-text" style="white-space: pre-line;">${p.constraints}</div>
+        </div>` : ''}
+
+        ${p.bonus ? `
+        <div class="ps-section">
+          <div class="ps-section-title">
+            <i class="fas fa-star"></i> Bonus (Optional)
+          </div>
+          <div class="ps-text" style="white-space: pre-line;">${p.bonus}</div>
+        </div>` : ''}
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button class="btn-outline" style="padding:12px 32px;" id="btnBackFromPublicDetail">Close</button>
+      </div>
+    `;
+
+    modalDetail.style.display = 'flex';
+
+    // Click handler for Close button
+    detailContent.onclick = (e) => {
+      const backBtn = e.target.closest('#btnBackFromPublicDetail');
+      if (backBtn) {
+        modalDetail.style.display = 'none';
+      }
+    };
+  }
+
+  // Initial render
+  renderCards(1, 'publicTrack1Cards');
+  renderCards(2, 'publicTrack2Cards');
+  renderCards(3, 'publicTrack3Cards');
 }
