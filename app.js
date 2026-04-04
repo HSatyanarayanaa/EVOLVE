@@ -829,8 +829,7 @@ function initLanding() {
     const now = Date.now();
     const diff = releaseDate - now;
     if (diff <= 0) {
-      const el = document.querySelector('.release-title');
-      if (el) el.innerHTML = 'Problem Statements are <span class="release-date">LIVE!</span>';
+      window.location.reload();
       return;
     }
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
