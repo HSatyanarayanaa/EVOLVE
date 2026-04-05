@@ -825,28 +825,40 @@ function initLanding() {
 
   // Countdown to April 5, 2026, 8:00 AM
   const releaseDate = new Date('2026-04-05T08:00:00+05:30').getTime();
-  function updateCountdown() {
-    const now = Date.now();
-    const diff = releaseDate - now;
-    if (diff <= 0) {
-      window.location.reload();
-      return;
+  
+  // FIX: Only run countdown if date is in the future
+  if (Date.now() < releaseDate) {
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = releaseDate - now;
+      if (diff <= 0) {
+        window.location.reload();
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+      const dEl = document.getElementById('countdown-days');
+      const hEl = document.getElementById('countdown-hours');
+      const mEl = document.getElementById('countdown-mins');
+      const sEl = document.getElementById('countdown-secs');
+      if (dEl) dEl.textContent = String(days).padStart(2, '0');
+      if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+      if (mEl) mEl.textContent = String(mins).padStart(2, '0');
+      if (sEl) sEl.textContent = String(secs).padStart(2, '0');
     }
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((diff % (1000 * 60)) / 1000);
-    const dEl = document.getElementById('countdown-days');
-    const hEl = document.getElementById('countdown-hours');
-    const mEl = document.getElementById('countdown-mins');
-    const sEl = document.getElementById('countdown-secs');
-    if (dEl) dEl.textContent = String(days).padStart(2, '0');
-    if (hEl) hEl.textContent = String(hours).padStart(2, '0');
-    if (mEl) mEl.textContent = String(mins).padStart(2, '0');
-    if (sEl) sEl.textContent = String(secs).padStart(2, '0');
+    updateCountdown();
+    const cdInterval = setInterval(() => {
+      const now = Date.now();
+      if (releaseDate - now <= 0) {
+        clearInterval(cdInterval);
+        window.location.reload();
+      } else {
+        updateCountdown();
+      }
+    }, 1000);
   }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
 }
 
 // ══════════════════════════════════════════════════════
@@ -1433,12 +1445,13 @@ function initProblemSelection() {
   const RELEASE_DATE = new Date('2026-04-05T08:00:00+05:30');
   const psCountdown = document.getElementById('psCountdown');
 
-  if (psCountdown) {
+  if (psCountdown && new Date() < RELEASE_DATE) {
     const updateCountdown = () => {
       const now = new Date();
       const diff = RELEASE_DATE - now;
 
       if (diff <= 0) {
+        clearInterval(psInterval);
         window.location.reload();
         return;
       }
@@ -1452,7 +1465,7 @@ function initProblemSelection() {
     };
 
     updateCountdown();
-    setInterval(updateCountdown, 1000);
+    const psInterval = setInterval(updateCountdown, 1000);
     return;
   }
 

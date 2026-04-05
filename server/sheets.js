@@ -75,6 +75,16 @@ async function appendRegistration(data) {
 
     const participants = data.participants || [];
 
+    // Check for duplicate team name
+    const existingRows = await getAllRows();
+    const isDuplicate = existingRows.some(
+        r => r.teamName.toLowerCase() === data.teamName.toLowerCase()
+    );
+
+    if (isDuplicate) {
+        throw new Error('A team with this name is already registered.');
+    }
+
     const row = [
         new Date().toISOString(),
         data.teamName,
