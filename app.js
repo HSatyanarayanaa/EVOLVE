@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   EVOLVE 1.0 — Main Application
+   EVOLVE 1.0 — Main Application (Problem Set: CivicShield, SheSafe, Orchestrix)
    SPA Router + Cosmic Canvas + Page Renderers
    ═══════════════════════════════════════════════════ */
 
