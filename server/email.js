@@ -340,7 +340,7 @@ async function sendProblemReleaseEmails(emails) {
 
   const siteUrl = process.env.SITE_URL || 'http://localhost:3000';
   const from = `"EVOLVE 1.0" <${process.env.SMTP_EMAIL}>`;
-  const subject = '🚀 EVOLVE 1.0 — Problem Statements are LIVE!';
+  const subject = 'CORRECTION: 🚀 EVOLVE 1.0 — Problem Statements are LIVE!';
   const html = `
     <div style="font-family: 'Segoe UI', Tahoma, sans-serif; max-width: 600px; margin: 0 auto; background: #0f0f1e; padding: 40px 30px; border-radius: 16px;">
       <div style="text-align: center; margin-bottom: 24px;">
